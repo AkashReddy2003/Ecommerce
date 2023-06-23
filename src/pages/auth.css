@@ -1,0 +1,17 @@
+.switch:hover{
+    background-color: #173352;
+    color: white;
+    transform: scale(1.05);
+    
+}
+.switch{
+    border-radius: 20px;
+    transition: all 0.3s ease;
+    margin: 10px;
+}
+
+.grid{
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+}
+
