@@ -103,7 +103,7 @@ function AdminProducts() {
     
       </Form>
         </Toast>
-    <ListGroup as="ol">
+    <ListGroup as="ol" style={{minWidth:"700px",boxShadow:"0px 0px 10px"}}>
         {prod.map((p)=>{
             return(
                 <ProductEdit{...p}/>
