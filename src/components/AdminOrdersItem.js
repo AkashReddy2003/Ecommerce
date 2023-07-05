@@ -15,6 +15,7 @@ const AdminOrdersItem = ({_id,owner,driver,products,address,date,status,total,pr
         driver!=""?await axios.get(BASE_URL+'user/'+driver).then((res)=>{
             setDrive(res.data);
         }):setDrive({});
+        console.log(product);
         let or=product?product.filter((o)=>products[o._id]!=null):[];
         setProd(or);
         console.log(or);
@@ -22,6 +23,7 @@ const AdminOrdersItem = ({_id,owner,driver,products,address,date,status,total,pr
     useEffect(()=>{
         getDetails();
     },[])
+    getDetails();
   return (
     <ListGroup.Item>
         <Row>
