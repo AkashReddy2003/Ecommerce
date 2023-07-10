@@ -45,11 +45,11 @@ export const UserProvider=({children})=>{
     }
     const signup=async(name,email,password,phone,address)=>{
         await axios.post(BASE_URL+"user/signup",{name,email,password,phone,address}).then((res)=>{
-            console.log(res.data);
+            console.log(res.data.user);
             setAuth(true);
             setUser(res.data.user);
             window.localStorage.setItem('auth',true);
-            window.localStorage.setItem('user',res.data.user);
+            window.localStorage.setItem('user',JSON.stringify(res.data.user));
             
         }).catch((e)=>{
             console.log(e)
