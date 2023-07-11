@@ -49,6 +49,7 @@ const Order = () => {
     useEffect(()=>{
         getOrders();
     },[])
+    getOrders();
   return (
     <div>
         <ListGroup.Item style={{minWidth:"700px"}}>
