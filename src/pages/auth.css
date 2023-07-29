@@ -1,17 +1,114 @@
-.switch:hover{
-    background-color: #173352;
-    color: white;
-    transform: scale(1.05);
-    
-}
-.switch{
-    border-radius: 20px;
-    transition: all 0.3s ease;
-    margin: 10px;
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-.grid{
-    display: grid;
-    grid-template-columns: repeat(2,1fr);
+
+
+.containe{
+    width: 100% !important;
+    height: 100vh;
+    background-image: linear-gradient(rgba(0,0,50,0.8),rgba(0,0,50,0.8)),url("../img/bg.jpg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover !important;
+    position: relative;
+    
+}
+.form_box{
+    width: 90%;
+    max-width: 450px;
+    max-height: 90vh;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    background: #fff;
+    padding: 50px 60px 70px;
+    text-align: center;
+    overflow: scroll;
+
+}
+
+.form_box::-webkit-scrollbar {
+    display: none;
+  }
+
+.form_box h1{
+    font-size: 20px;
+    margin-bottom: 20px;
+    color: #3c00a0;
+    position: relative;;
+}
+
+.form_box h1::after
+{
+    content: "";
+    width: 30px;
+    height: 4px;
+    border-radius: 3px;
+    background: #3c00a0;
+    position: absolute;
+    bottom: -12px;
+    left:50%;
+    transform: translateX(-50%);
+}
+
+
+.input_field{
+    background: #eaeaea;
+    margin: 15px 0;
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+}
+
+input{
+    width: 100%;
+    background: transparent;
+    border: 0;
+    outline: 0;
+    padding: 18px 15px ;
+}
+
+.input_field i{
+    margin-left: 15px;
+    color: #999;
+    
+}
+
+.btn_field{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.btn_field button{
+    font-size: 18px;
+    flex-basis: 48%;
+    background: #3c00a0;
+    color: #fff;
+    height: 40px;
+    border-radius: 20px;
+    border: 0;
+    outline: 0;
+    cursor: pointer;
+    transition: background 1s;
+}
+.btn_field button.disable{
+    background: #eaeaea;
+    color: #555;
+}
+
+.sub{
+    background: #3c00a0;
+    color: white;
+    border-radius: 20px;
+    width: 50%;
+    height: 40px;
+}
+.sub:hover{
+    background: #555;
 }
 

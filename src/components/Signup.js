@@ -2,7 +2,12 @@ import React, { useState } from 'react'
 import {Button, Form,Row,Col} from 'react-bootstrap';
 import "./box.css"
 import { useUserContext } from '../context/userContext';
-
+import "../pages/auth.css"
+import {CiUser} from 'react-icons/ci';
+import {AiOutlineEmail,AiOutlinePhone} from 'react-icons/ai';
+import {TbPassword} from 'react-icons/tb';
+import {FaRegAddressCard} from 'react-icons/fa'
+import {HiOutlineMail} from 'react-icons/hi'
 function Signup() {
     const {signup}=useUserContext();
     const [email,setEmail]=useState("");
@@ -11,47 +16,33 @@ function Signup() {
     const [address,setAddress]=useState("");
     const [name,setName]=useState("");
   return (
-    <div className='container'>
-    <Form>
-        <h1>Create new Account</h1>
-        <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-        <Form.Label>Name</Form.Label>
-        <Form.Control type="text" placeholder="Name"  value={name} onChange={(e)=>setName(e.target.value)}/>
-      </Form.Group>
-      <Row>
-        <Col>
-        <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-        <Form.Label>Email address</Form.Label>
-        <Form.Control type="email" placeholder="name@example.com"  value={email} onChange={(e)=>setEmail(e.target.value)}/>
-      </Form.Group>
-        </Col>
-        <Col>
-        <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-        <Form.Label>Password</Form.Label>
-        <Form.Control type="password" placeholder="****" value={password} onChange={(e)=>setPassword(e.target.value)}/>
-      </Form.Group>
-        </Col>
-      </Row>
-      <Row>
-        <Col>
-        <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-        <Form.Label>Phone</Form.Label>
-        <Form.Control type="text" placeholder="123456890" value={phone} onChange={(e)=>setPhone(e.target.value)}/>
-      </Form.Group>
-        </Col>
-        <Col>
-        <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-        <Form.Label>Address</Form.Label>
-        <Form.Control type="text" placeholder="address" value={address} onChange={(e)=>setAddress(e.target.value)} />
-      </Form.Group>
-        </Col>
-      </Row>
+    <div className='input_group'>
+    
+        <div className="input_field">
+        <i><CiUser/></i>
+        <input type="text" placeholder="Name"  value={name} onChange={(e)=>setName(e.target.value)}/>
+      </div>
+        <div className="input_field">
+        <i><HiOutlineMail/></i>
+        <input type="email" placeholder="Email"  value={email} onChange={(e)=>setEmail(e.target.value)}/>
+      </div>
+        
+        <div className="input_field">
+        <i><TbPassword/></i>
+        <input type="password" placeholder="Password" value={password} onChange={(e)=>setPassword(e.target.value)}/>
+      </div>
+       
       
-      
-      
-      
-      <Button onClick={()=>signup(name,email,password,phone,address)}>Submit</Button>
-    </Form>
+        <div className="input_field">
+        <i><AiOutlinePhone/></i>
+        <input type="text" placeholder="Phone No" value={phone} onChange={(e)=>setPhone(e.target.value)}/>
+      </div>
+        
+        <div className="input_field">
+        <i><FaRegAddressCard/></i>
+        <input type="text" placeholder="Address" value={address} onChange={(e)=>setAddress(e.target.value)} />
+      </div>
+        <button className='sub' onClick={()=>signup(name,email,password,phone,address)}>Submit</button>
     </div>
   )
 }

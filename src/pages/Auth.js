@@ -2,73 +2,40 @@ import React, { useState } from 'react'
 import Login from '../components/Login'
 import Signup from '../components/Signup';
 import "./auth.css"
-import { Container,Col,Row } from 'react-bootstrap';
-import Carousel from 'react-bootstrap/Carousel';
-import a from "../img/a.jpg"
-import b from "../img/b.jpeg"
-import c from "../img/c.jpg"
-import logo from "../img/logo.webp"
+import {CiUser} from 'react-icons/ci';
+import {AiOutlineEmail,AiOutlinePhone} from 'react-icons/ai';
+import {TbPassword} from 'react-icons/tb';
+import {FaRegAddressCard} from 'react-icons/fa'
+import {HiOutlineMail} from 'react-icons/hi'
 function Auth() {
-    const [state,setState]=useState(true);
+    const [state,setState]=useState("Sign Up");
     const data=()=>{
         switch(state){
-            case true:
+            case "Log In":
                 return <Login/>
-            case false:
+            case "Sign Up":
                 return <Signup/>
             default:
-                return <Login/>
+                return <Signup/>
         }
     }
   return (
     
-    <Row style={{height:"80vh",alignItems:"center"}} className='grid'>
-    <Col style={{alignItems:"center",padding:"0 5vw",height:"100vh",textAlign:"center"}} >
+    <div className='containe'>
+      <div className='form_box'>
+        <h1>Wholesale Ecommerce</h1>
+        <div className='btn_field'>
+        <button type='button' className={state=="Sign Up"?"":"disable"} onClick={()=>setState("Sign Up")}>Sign up</button>
+        <button type='button' className={state=="Log In"?"":"disable"} onClick={()=>setState("Log In")}>Log in</button>
+
+      </div>
+        {data()}
         
-        <h1><img style={{height:"80px"}} src={logo}></img>Sri Sai Agencies</h1>
-       <Row>
-        <Col onClick={()=>setState(false)} style={{cursor:"pointer"}} className="switch"><h4>Signup</h4></Col>
-        <Col onClick={()=>setState(true)} style={{cursor:"pointer"}} className="switch"> <h4>Login</h4></Col>
-        </Row> 
-  
-    {data()}
-    </Col>
-    <Col >
-    <Carousel >
-      <Carousel.Item>
-        <img
-        style={{height:"100vh",objectFit:"cover"}}
-          className="d-block w-100"
-          src={a}
-          alt="First slide"
-
-        />
-      
-      </Carousel.Item>
-      <Carousel.Item>
-        <img
-        style={{height:"100vh",objectFit:"cover"}}
-          className="d-block w-100"
-          src={b}
-          alt="Second slide"
-        />
-
-       
-      </Carousel.Item>
-      <Carousel.Item>
-        <img
-        style={{height:"100vh",objectFit:"cover"}}
-          className="d-block w-100"
-          src={c}
-          alt="Third slide"
-        />
-
-       
-      </Carousel.Item>
-    </Carousel>
-    </Col>
+      </div>
+    </div>
     
-    </Row>
+    
+    
     
   )
 }
