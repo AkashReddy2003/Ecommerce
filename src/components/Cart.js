@@ -3,11 +3,12 @@ import { useUserContext } from '../context/userContext'
 import axios from 'axios';
 import { ListGroup,Row,Col,Button } from 'react-bootstrap';
 import { AiOutlineDelete, AiOutlineMinus, AiOutlinePlus, AiOutlineSend } from 'react-icons/ai';
-
+import loa from '../img/button.png';
 const Cart = () => {
     const {BASE_URL,login,user,setUse}=useUserContext();
     const [cart,setCart]=useState([]);
     const [products,setProducts]=useState([]);
+    const [load,setLoad]=useState(true);
     const getCart=async()=>{
       await axios.get(BASE_URL+"product").then((res)=>{
         setProducts(res.data);
@@ -21,41 +22,35 @@ const Cart = () => {
       setCart(car);
     }
     const order=async()=>{
-      await axios.post(BASE_URL+'order',{userId:user._id,cart:user.cart,address:user.address}).then((res)=>{
-        setUse(res.data);
-      })
+      if(!cart.length){
+        alert("Cart is Empty")
+      }else{
+        await axios.post(BASE_URL+'order',{userId:user._id,cart:user.cart,address:user.address}).then((res)=>{
+          setUse(res.data);
+        })
+      }
+      
     } 
     getCart()
     useEffect(()=>{
-      getCart();
-    },[user])
-  return (
-    <div style={{padding:"20px"}}>
-      <h1>Cart</h1>
+      setLoad(true);
+      setTimeout(()=>{getCart();setLoad(false)},1000);
       
-      <ListGroup as="ol" style={{minWidth:"700px",boxShadow:"0px 0px 10px"}}>
-      <ListGroup.Item as="li" >
-          <Row>
-              <Col>
-              <h4></h4>
-              </Col>
-              <Col>
-              <h4>Name</h4>
-              </Col>
-              <Col>
-              <h4>Category</h4>
-              </Col>
-              <Col>
-              <h4>Quantity</h4>
-              </Col>
-              <Col>
-              <h4>Price</h4>
-              </Col>
-              <Col>
-              
-              </Col>
-          </Row>
-          </ListGroup.Item>
+      
+  },[user])
+  
+    
+  return (
+    <>
+          {load?
+            <section id='load'>
+                <img src={loa}/>
+            </section>
+            :
+    <div id="cart">
+      <div>
+      <h1 class="text-center">{cart.length>0?"CART":"CART IS EMPTY"}</h1>
+      <div class="cart-container">
       {cart?cart.map((c)=>{
         const incCart=async()=>{
           await axios.post(BASE_URL+"product/increase-cart",{userId:user._id,productId:c._id,price:c.price}).then((res)=>{
@@ -70,44 +65,36 @@ const Cart = () => {
         const delCart=async()=>{
           await axios.post(BASE_URL+"product/remove-from-cart",{userId:user._id,productId:c._id,price:c.price}).then((res)=>{
             setUse(res.data);
+            
           })
         }
-
         return(
-          <ListGroup.Item as="li" style={{minWidth:"700px"}} >
-          <Row>
-              <Col>
-              <img
-    src={c.pictures}
-    
-    alt=""
-    style={{maxHeight:"50px"}}
-  />
-              </Col>
-              <Col>
-              {c.name}
-              </Col>
-              <Col>
-              {c.category}
-              </Col>
-              <Col>
-              <Button onClick={user.cart[c._id]>1?decCart:delCart} variant='outline-dark'><AiOutlineMinus/></Button>
-              {"   "+user.cart[c._id]+"   "}
-              <Button onClick={incCart} variant='outline-dark'><AiOutlinePlus/></Button>
-              </Col>
-              <Col>
-              {Number(c.price)*Number(user.cart[c._id])}
-              </Col>
-              <Col>
-              <Button onClick={delCart} variant='outline-dark'><AiOutlineDelete/></Button>
-              </Col>
-          </Row>
-          </ListGroup.Item>
+          
+          <div class="cart-item">
+          <img src={c.pictures} alt="Item 1"/>
+          <div class="item-details">
+            <h2>{c.name+" "+c.category}</h2>
+            <p>Price: ${Number(c.price)*Number(user.cart[c._id])}</p>
+            <div class="quantity">
+              <button onClick={user.cart[c._id]>1?decCart:delCart} class="decrease-btn">-</button>
+              <span class="count">{user.cart[c._id]}</span>
+              <button onClick={incCart} class="increase-btn">+</button>
+            </div>
+            <button onClick={()=>{delCart();setTimeout(()=>{setLoad(false)},1500)}} class="delete-btn">Delete</button>
+          </div>
+        </div>
         )
       }):""}
-      </ListGroup>
-      <Button variant='outline-dark' onClick={order}>Order{"  "}<AiOutlineSend/></Button>
+      </div>
+      <div class="cart-container">
+      {cart.length>0?
+      <button class="order-btn" variant='outline-dark' onClick={order}>Order{" "}Now</button>
+      :""}
+      </div>
+      </div>
     </div>
+}
+    </>
   )
 }
 

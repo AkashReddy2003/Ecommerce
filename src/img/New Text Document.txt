@@ -1,159 +1,114 @@
-<Row style={{height:"80vh",alignItems:"center"}} className='grid'>
-    <Col style={{alignItems:"center",padding:"0 5vw",height:"100vh",textAlign:"center"}} >
+import React, { useEffect, useState } from 'react'
+import { useUserContext } from '../context/userContext'
+import axios from 'axios';
+import { ListGroup,Row,Col,Button } from 'react-bootstrap';
+import { AiOutlineDelete, AiOutlineMinus, AiOutlinePlus, AiOutlineSend } from 'react-icons/ai';
+
+const Cart = () => {
+    const {BASE_URL,login,user,setUse}=useUserContext();
+    const [cart,setCart]=useState([]);
+    const [products,setProducts]=useState([]);
+    const getCart=async()=>{
+      await axios.get(BASE_URL+"product").then((res)=>{
+        setProducts(res.data);
         
-        <h1><img style={{height:"80px"}} src={logo}></img>Sri Sai Agencies</h1>
-       <Row>
-        <Col onClick={()=>setState(false)} style={{cursor:"pointer"}} className="switch"><h4>Signup</h4></Col>
-        <Col onClick={()=>setState(true)} style={{cursor:"pointer"}} className="switch"> <h4>Login</h4></Col>
-        </Row> 
-  
-    {data()}
-    </Col>
-    <Col >
-    <Carousel >
-      <Carousel.Item>
-        <img
-        style={{height:"100vh",objectFit:"cover"}}
-          className="d-block w-100"
-          src={a}
-          alt="First slide"
-
-        />
+      }).catch((e)=>{
+        console.log(e);
+      })
       
-      </Carousel.Item>
-      <Carousel.Item>
-        <img
-        style={{height:"100vh",objectFit:"cover"}}
-          className="d-block w-100"
-          src={b}
-          alt="Second slide"
-        />
-
-       
-      </Carousel.Item>
-      <Carousel.Item>
-        <img
-        style={{height:"100vh",objectFit:"cover"}}
-          className="d-block w-100"
-          src={c}
-          alt="Third slide"
-        />
-
-       
-      </Carousel.Item>
-    </Carousel>
-    </Col>
-    
-    </Row>
-
-
-
-
-
-
-
-
-
-
-
-
-.switch:hover{
-    background-color: #173352;
-    color: white;
-    transform: scale(1.05);
-    
-}
-.switch{
-    border-radius: 20px;
-    transition: all 0.3s ease;
-    margin: 10px;
-}
-
-.grid{
-    display: grid;
-    grid-template-columns: repeat(2,1fr);
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-import React, { useState } from 'react'
-import {Button, Form,Row,Col} from 'react-bootstrap';
-import "./box.css"
-import { useUserContext } from '../context/userContext';
-
-function Signup() {
-    const {signup}=useUserContext();
-    const [email,setEmail]=useState("");
-    const [password,setPassword]=useState("");
-    const [phone,setPhone]=useState("");
-    const [address,setAddress]=useState("");
-    const [name,setName]=useState("");
+      const c=user.cart;
+      const car=products&&c?products.filter((product)=>c[product._id]!=null):""
+      setCart(car);
+    }
+    const order=async()=>{
+      await axios.post(BASE_URL+'order',{userId:user._id,cart:user.cart,address:user.address}).then((res)=>{
+        setUse(res.data);
+      })
+    } 
+    getCart()
+    useEffect(()=>{
+      getCart();
+    },[user])
   return (
-    <div className='container'>
-    <Form>
-        <h1>Create new Account</h1>
-        <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-        <Form.Label>Name</Form.Label>
-        <Form.Control type="text" placeholder="Name"  value={name} onChange={(e)=>setName(e.target.value)}/>
-      </Form.Group>
-      <Row>
-        <Col>
-        <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-        <Form.Label>Email address</Form.Label>
-        <Form.Control type="email" placeholder="name@example.com"  value={email} onChange={(e)=>setEmail(e.target.value)}/>
-      </Form.Group>
-        </Col>
-        <Col>
-        <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-        <Form.Label>Password</Form.Label>
-        <Form.Control type="password" placeholder="****" value={password} onChange={(e)=>setPassword(e.target.value)}/>
-      </Form.Group>
-        </Col>
-      </Row>
-      <Row>
-        <Col>
-        <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-        <Form.Label>Phone</Form.Label>
-        <Form.Control type="text" placeholder="123456890" value={phone} onChange={(e)=>setPhone(e.target.value)}/>
-      </Form.Group>
-        </Col>
-        <Col>
-        <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-        <Form.Label>Address</Form.Label>
-        <Form.Control type="text" placeholder="address" value={address} onChange={(e)=>setAddress(e.target.value)} />
-      </Form.Group>
-        </Col>
-      </Row>
+    <div style={{padding:"20px"}}>
+      <h1>Cart</h1>
       
-      
-      
-      
-      <Button onClick={()=>signup(name,email,password,phone,address)}>Submit</Button>
-    </Form>
+      <ListGroup as="ol" style={{minWidth:"700px",boxShadow:"0px 0px 10px"}}>
+      <ListGroup.Item as="li" >
+          <Row>
+              <Col>
+              <h4></h4>
+              </Col>
+              <Col>
+              <h4>Name</h4>
+              </Col>
+              <Col>
+              <h4>Category</h4>
+              </Col>
+              <Col>
+              <h4>Quantity</h4>
+              </Col>
+              <Col>
+              <h4>Price</h4>
+              </Col>
+              <Col>
+              
+              </Col>
+          </Row>
+          </ListGroup.Item>
+      {cart?cart.map((c)=>{
+        const incCart=async()=>{
+          await axios.post(BASE_URL+"product/increase-cart",{userId:user._id,productId:c._id,price:c.price}).then((res)=>{
+            setUse(res.data);
+          })
+        }
+        const decCart=async()=>{
+          await axios.post(BASE_URL+"product/decrease-cart",{userId:user._id,productId:c._id,price:c.price}).then((res)=>{
+            setUse(res.data);
+          })
+        }
+        const delCart=async()=>{
+          await axios.post(BASE_URL+"product/remove-from-cart",{userId:user._id,productId:c._id,price:c.price}).then((res)=>{
+            setUse(res.data);
+          })
+        }
+
+        return(
+          <ListGroup.Item as="li" style={{minWidth:"700px"}} >
+          <Row>
+              <Col>
+              <img
+    src={c.pictures}
+    
+    alt=""
+    style={{maxHeight:"50px"}}
+  />
+              </Col>
+              <Col>
+              {c.name}
+              </Col>
+              <Col>
+              {c.category}
+              </Col>
+              <Col>
+              <Button onClick={user.cart[c._id]>1?decCart:delCart} variant='outline-dark'><AiOutlineMinus/></Button>
+              {"   "+user.cart[c._id]+"   "}
+              <Button onClick={incCart} variant='outline-dark'><AiOutlinePlus/></Button>
+              </Col>
+              <Col>
+              {Number(c.price)*Number(user.cart[c._id])}
+              </Col>
+              <Col>
+              <Button onClick={delCart} variant='outline-dark'><AiOutlineDelete/></Button>
+              </Col>
+          </Row>
+          </ListGroup.Item>
+        )
+      }):""}
+      </ListGroup>
+      <Button variant='outline-dark' onClick={order}>Order{"  "}<AiOutlineSend/></Button>
     </div>
   )
 }
 
-export default Signup
+export default Cart

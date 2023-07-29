@@ -32,7 +32,9 @@
 
 
 }
-
+html{
+  scroll-behavior: smooth !important;
+}
 
 
 *{
@@ -72,11 +74,3 @@ button,input,textarea{
   outline: none;
 }
 
-@media screen and (max-width:768px) {
-  .grid{
-    grid-template-columns: repeat(1,1fr)!important;
-  }
-  .section{
-    grid-template-columns: repeat(1,1fr)!important;
-  }
-}

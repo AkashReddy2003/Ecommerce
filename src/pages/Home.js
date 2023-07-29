@@ -15,12 +15,16 @@ import Order from '../components/Order';
 import DriverOrders from '../components/DriverOrders';
 import DriverMyOrder from '../components/DriverMyOrder';
 import AdminOrders from '../components/AdminOrders';
+import Product from '../components/Product';
+import './home.css';
 
 function Home() {
   const {user,logout}=useUserContext();
   const [data,setData]=useState("main");
   const Main=()=>{
     switch(data){
+      case "product":
+        return <Product />
       case "drivers":
         return <AdminDrivers/>
       case "users":
@@ -28,7 +32,7 @@ function Home() {
       case "products":
         return <AdminProducts/>
       case "main":
-        return <Home2/>
+        return <Home2 setData={setData}/>
       case "cart":
         return <Cart/>
       case "order":
@@ -45,38 +49,53 @@ function Home() {
   }
   return (
     <>
-      <Navbar expand="lg" className="bg-body-tertiary" style={{minWidth:"700px"}}>
-      <Container style={{backgroundColor:"#F1C27B",color:"#1F6E8C"}} >
-        <Navbar.Brand onClick={()=>setData("main")}><h3>PEPSI</h3></Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="me-auto">
+  <nav className="navbar navbar-expand-lg navbar-dark " id='navbar'>
+  <div className="container-fluid">
+    <a className="navbar-brand" href="#home" onClick={()=>setData("main")}>PEPSI</a>
+    <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span className="navbar-toggler-icon"></span>
+    </button>
+    <div className="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul className="navbar-nav mx-auto ">
+      <li className='nav-item' onClick={()=>setData("main")} ><a href="#home" className='nav-link'>Home</a></li>
+          <li className='nav-item' onClick={()=>setData("main")}><a href='#about' className='nav-link'>About</a></li>
+          <li className='nav-item'><a className='nav-link'>Contact</a></li>
+          <li className='nav-item' onClick={()=>setData("product")} ><a className='nav-link'>Products</a></li>
+          
+            <li className='nav-item' onClick={()=>setData("cart")}><a className='nav-link'><AiOutlineShoppingCart />{"("+user.cart.count+")"}</a></li>
+            <li className='nav-item' onClick={()=>setData("order")}><a className='nav-link'>Orders</a></li>
+            {user.role=="admin"&&
+            <li className="nav-item dropdown">
+          <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Admin
+          </a>
+            <ul className='dropdown-menu' title="Admin">
+            <li className='dropdown-item' onClick={()=>setData("products")}>Products</li>
+            <li className='dropdown-item' onClick={()=>setData("drivers")}>Drivers</li>
+            <li className='dropdown-item' onClick={()=>setData("orders")}>Orders</li>
+            <li className='dropdown-item' onClick={()=>setData("users")}>Users</li>
+            </ul>
             
-            <Nav.Link onClick={()=>setData("cart")}><h5><AiOutlineShoppingCart />{"("+user.cart.count+")"}</h5></Nav.Link>
-            <Nav.Link onClick={()=>setData("order")}><h5>Orders</h5></Nav.Link>
+            </li>}
+            {user.role=="driver"&&
+            <li className="nav-item dropdown">
+            <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Driver
+            </a>
+            <ul className='dropdown-menu' title="Driver">
+            <li className='dropdown-item' onClick={()=>setData("driveorders")}>Active Orders</li>
+            <li className='dropdown-item' onClick={()=>setData("myorder")}>My Orders</li>
+            </ul>
+            </li>}
+          
             
-            {user.role=="admin"&&<h5>
-            <NavDropdown title="Admin">
-            <NavDropdown.Item onClick={()=>setData("products")}>Products</NavDropdown.Item>
-            <NavDropdown.Item onClick={()=>setData("drivers")}>Drivers</NavDropdown.Item>
-            <NavDropdown.Item onClick={()=>setData("orders")}>Orders</NavDropdown.Item>
-            <NavDropdown.Item onClick={()=>setData("users")}>Users</NavDropdown.Item>
-            </NavDropdown>
-            
-            </h5>}
-            {user.role=="driver"&&<h5>
-            <NavDropdown title="Driver">
-            <NavDropdown.Item onClick={()=>setData("driveorders")}>Active Orders</NavDropdown.Item>
-            <NavDropdown.Item onClick={()=>setData("myorder")}>My Orders</NavDropdown.Item>
-            </NavDropdown>
-            
-            </h5>}
-            
-          </Nav>
-        </Navbar.Collapse>
-        <Button variant='outline-dark' onClick={logout}>Logout</Button>
-      </Container>
-    </Navbar>
+      </ul>
+      <button class="btn" onClick={logout} >Logout</button>
+      
+    </div>
+  </div>
+</nav>
+      
     
     {Main()}
     </>
