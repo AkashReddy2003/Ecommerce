@@ -1,0 +1,168 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.contain{
+    position: relative;
+    width: 100%;
+    
+    
+}
+
+.navigate{
+    position: fixed;
+    width:300px;
+    height:100%;
+    background: black;
+    border-left: 10px solid black;
+    transition: 0.5s;
+    overflow: hidden;
+}
+
+.navigate ul{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+}
+
+.navigate ul li{
+    position: relative;
+    width: 100%;
+    list-style: none;
+    color: #e5e5e5 !important;
+    border-top-left-radius:30px ;
+    border-bottom-left-radius: 30px;
+}
+.navigate ul li:hover{
+    background: #e5e5e5;
+    color:black !important;
+}
+.navigate ul li a{
+    position: relative;
+    display: block;
+    width: 100%;
+    display: flex;
+    text-decoration: none;
+    color: #e5e5e5 !important;
+}
+.navigate ul li a:hover{
+    color:black !important;
+}
+
+.navigate ul li a .ic{
+    position: relative;
+    display: block;
+    min-width: 60px;
+    height: 60px;
+    
+    line-height: 75px;
+    text-align: center;
+}
+
+.navigate ul li a .ic{
+    font-size: 1.75rem;
+}
+.navigate ul li a .title{
+    position: relative;
+    display: block;
+    padding: 0 10px;
+    height: 60px;
+    line-height: 60px;
+    margin-top: 10px;
+    text-align: start;
+    white-space: nowrap;
+}
+
+
+.navigate ul li:hover a::before{
+    content: "";
+    position: absolute;
+    right: 0;
+    top: -50px;
+    width: 50px;
+    height: 50px;
+    background-color: transparent;
+    border-radius: 50%;
+    box-shadow: 35px 35px 0 10px #e5e5e5;
+    pointer-events: none;
+}
+.navigate ul li:hover a::after{
+    content: "";
+    position: absolute;
+    right: 0;
+    bottom: -50px;
+    width: 50px;
+    height: 50px;
+    background-color: transparent;
+    border-radius: 50%;
+    box-shadow: 35px -35px 0 10px #e5e5e5;
+    pointer-events: none;
+}
+
+.content{
+    left:300px;
+    width: 75%;
+    position: fixed;
+    overflow-y: scroll;
+    overflow: scroll;
+    height: 90%;
+    background-color: #e5e5e5;
+    color: white;
+}
+.parameters{
+    display: grid;
+    grid-template-columns: auto auto auto ;
+}
+h1{
+    font-size: large;
+}
+.parameters .card{
+    height: auto !important;
+    width: 75% !important;
+    background: #e5e5e5 !important;
+    border: none !important;
+    box-shadow: 15px 20px 20px rgba(0,0,0,0.3),inset 4px 4px 10px white;
+    border-radius: 20px !important;
+    overflow: hidden;
+    justify-content: center;
+    align-items: center ;
+    margin: 20px 60px;
+    transition: 0.2s;
+}
+
+.card:hover{
+    box-shadow: inset 5px 5px 10px rgba(0,0,0,0.3),
+                inset -4px -4px 10px white;
+}
+
+.parameters .card img{
+    height: 150px;
+    width: 150px;
+    border-radius: 50%;
+    padding: 10px;
+}
+
+.card h1{
+    padding: 10px;
+}
+
+.btn_group{
+    display: grid;
+    grid-template-columns: auto auto;
+    width: 100%;
+}
+.btn{
+    margin: 5px;
+}
+.orddet{
+    display: grid;
+    grid-template-columns: auto auto;
+}
+
+.orddet .card{
+    margin: 10px;
+}
+

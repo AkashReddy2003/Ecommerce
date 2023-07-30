@@ -122,6 +122,7 @@ section{
 }
 #about{
     background: black;
+    color: white;
 
 }
 #about img{
@@ -152,7 +153,7 @@ section{
     
 }
 
-.card img{
+#product .card img{
     padding: 20px;
     width: 200px !important;
     height: 200px !important;
@@ -160,7 +161,7 @@ section{
     
 }
 
-.card{
+#product .card{
     width: 250px;
     height: 350px;
     background: #e5e5e5 !important;
@@ -174,7 +175,7 @@ section{
     transition: 0.2s;
 }
 
-.card:hover{
+#product .card:hover{
     box-shadow: inset 5px 5px 10px rgba(0,0,0,0.3),
                 inset -4px -4px 10px white;
 }

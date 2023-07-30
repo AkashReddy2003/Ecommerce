@@ -22,12 +22,14 @@ const ProductEdit = ({_id,name,category,stock,price,pictures}) => {
         })
 
     }
-    const delet=async()=>{
-        await axios.delete(BASE_URL+"product/"+_id).then((res)=>{
-            setProdUpdate(!prodUpdate);
-        }).catch((e)=>{
-            console.log(e);
-        })
+    
+
+    const addProduct=async()=>{
+      await axios.post(BASE_URL+"product",{name:nam,stock:stoc,price:pric,category:categor,pictures:picture}).then((res)=>{
+        
+      }).catch((e)=>{
+        console.log(e);
+      })
     }
     
     useEffect(()=>{
@@ -35,37 +37,6 @@ const ProductEdit = ({_id,name,category,stock,price,pictures}) => {
     },[show])
     
   return (
-    <ListGroup.Item as="li" >
-                    <Row>
-                        <Col>
-                        <img
-              src={pictures}
-              
-              alt=""
-              style={{maxHeight:"50px"}}
-            />
-                        </Col>
-                        <Col>
-                        {name}
-                        </Col>
-                        <Col>
-                        {category}
-                        </Col>
-                        <Col>
-                        {stock}
-                        </Col>
-                        <Col>
-                        {price}
-                        </Col>
-                        <Col>
-                        <Button onClick={toggleShow}><AiFillEdit/></Button>
-                        {"   "}
-                        <Button onClick={delet}><AiFillDelete/></Button>
-                        </Col>
-                    </Row>
-
-                
-    <Toast show={show} onClose={toggleShow} style={{zIndex:1,position:"absolute"}} >
         <Form>
         <InputGroup className="mb-3">
         <InputGroup.Text id="inputGroup-sizing-default">
@@ -123,12 +94,10 @@ const ProductEdit = ({_id,name,category,stock,price,pictures}) => {
         />
       </InputGroup>
       <InputGroup className="mb-3">
-      <Button onClick={()=>update()}>Update</Button>
+      <Button onClick={()=>name?update():addProduct()}  data-bs-dismiss="modal" >Update</Button>
       </InputGroup>
-    
       </Form>
-        </Toast>
-        </ListGroup.Item>
+       
   )
 }
 

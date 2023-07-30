@@ -74,7 +74,7 @@ const Cart = () => {
           <img src={c.pictures} alt="Item 1"/>
           <div class="item-details">
             <h2>{c.name+" "+c.category}</h2>
-            <p>Price: ${Number(c.price)*Number(user.cart[c._id])}</p>
+            <p>Price: {Number(c.price)*Number(user.cart[c._id])}₹</p>
             <div class="quantity">
               <button onClick={user.cart[c._id]>1?decCart:delCart} class="decrease-btn">-</button>
               <span class="count">{user.cart[c._id]}</span>

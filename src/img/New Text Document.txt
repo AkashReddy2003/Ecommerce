@@ -1,114 +1,113 @@
 import React, { useEffect, useState } from 'react'
-import { useUserContext } from '../context/userContext'
+import { useUserContext } from '../context/userContext';
 import axios from 'axios';
-import { ListGroup,Row,Col,Button } from 'react-bootstrap';
-import { AiOutlineDelete, AiOutlineMinus, AiOutlinePlus, AiOutlineSend } from 'react-icons/ai';
+import { ListGroup, Row,Col, Badge } from 'react-bootstrap';
 
-const Cart = () => {
-    const {BASE_URL,login,user,setUse}=useUserContext();
-    const [cart,setCart]=useState([]);
-    const [products,setProducts]=useState([]);
-    const getCart=async()=>{
-      await axios.get(BASE_URL+"product").then((res)=>{
-        setProducts(res.data);
-        
-      }).catch((e)=>{
-        console.log(e);
-      })
-      
-      const c=user.cart;
-      const car=products&&c?products.filter((product)=>c[product._id]!=null):""
-      setCart(car);
-    }
-    const order=async()=>{
-      await axios.post(BASE_URL+'order',{userId:user._id,cart:user.cart,address:user.address}).then((res)=>{
-        setUse(res.data);
-      })
-    } 
-    getCart()
-    useEffect(()=>{
-      getCart();
-    },[user])
-  return (
-    <div style={{padding:"20px"}}>
-      <h1>Cart</h1>
-      
-      <ListGroup as="ol" style={{minWidth:"700px",boxShadow:"0px 0px 10px"}}>
-      <ListGroup.Item as="li" >
-          <Row>
-              <Col>
-              <h4></h4>
-              </Col>
-              <Col>
-              <h4>Name</h4>
-              </Col>
-              <Col>
-              <h4>Category</h4>
-              </Col>
-              <Col>
-              <h4>Quantity</h4>
-              </Col>
-              <Col>
-              <h4>Price</h4>
-              </Col>
-              <Col>
-              
-              </Col>
-          </Row>
-          </ListGroup.Item>
-      {cart?cart.map((c)=>{
-        const incCart=async()=>{
-          await axios.post(BASE_URL+"product/increase-cart",{userId:user._id,productId:c._id,price:c.price}).then((res)=>{
-            setUse(res.data);
-          })
-        }
-        const decCart=async()=>{
-          await axios.post(BASE_URL+"product/decrease-cart",{userId:user._id,productId:c._id,price:c.price}).then((res)=>{
-            setUse(res.data);
-          })
-        }
-        const delCart=async()=>{
-          await axios.post(BASE_URL+"product/remove-from-cart",{userId:user._id,productId:c._id,price:c.price}).then((res)=>{
-            setUse(res.data);
-          })
-        }
-
-        return(
-          <ListGroup.Item as="li" style={{minWidth:"700px"}} >
-          <Row>
-              <Col>
-              <img
-    src={c.pictures}
+const Order = () => {
+    const [data,setData]=useState([]);
+    const {user,BASE_URL}=useUserContext();
+    const [prod,setProd]=useState([]);
     
-    alt=""
-    style={{maxHeight:"50px"}}
-  />
-              </Col>
-              <Col>
-              {c.name}
-              </Col>
-              <Col>
-              {c.category}
-              </Col>
-              <Col>
-              <Button onClick={user.cart[c._id]>1?decCart:delCart} variant='outline-dark'><AiOutlineMinus/></Button>
-              {"   "+user.cart[c._id]+"   "}
-              <Button onClick={incCart} variant='outline-dark'><AiOutlinePlus/></Button>
-              </Col>
-              <Col>
-              {Number(c.price)*Number(user.cart[c._id])}
-              </Col>
-              <Col>
-              <Button onClick={delCart} variant='outline-dark'><AiOutlineDelete/></Button>
-              </Col>
-          </Row>
-          </ListGroup.Item>
-        )
-      }):""}
-      </ListGroup>
-      <Button variant='outline-dark' onClick={order}>Order{"  "}<AiOutlineSend/></Button>
+    let p=[];
+    let driver={};
+    
+    const getOrders=async()=>{
+        await axios.get(BASE_URL+"order").then((res)=>{
+
+            console.log(res.data);
+            console.log(user.orders);
+            let or=res.data.filter((d)=>user.orders.includes(d._id));
+            setData(or);
+        })
+        await axios.get(BASE_URL+"product").then((res)=>setProd(res.data))
+    }
+    const getProd=async(order)=>{
+        p=[];
+        p=prod.filter((x)=>order.products[x._id]!=null);
+        return p;
+    }
+    const getDriver=async(order)=>{
+        if(order.status!="processing"){
+            await axios.get(BASE_URL+"user/"+order.driver).then((res)=>{
+                driver={
+                    name:res.data.name,
+                    phone:res.data.phone
+                }
+                return driver;
+            }).catch((e)=>{
+                console.log(e);
+            })
+        }else{
+            driver={
+                name:"Not Assigned",
+                phone:"Not Assigned"
+            }
+            return driver;
+        }
+        
+    }
+    useEffect(()=>{
+        getOrders();
+    },[])
+    getOrders();
+  return (
+    <div>
+        <ListGroup.Item style={{minWidth:"700px"}}>
+                <Row>
+                    <Col>
+                    </Col>
+                    <Col>
+                    <h5>Order Date</h5>
+                    </Col>
+                    <Col>
+                    <h5>Order Status</h5>
+                    </Col>
+                    <Col>
+                    <h5>Ordered Products</h5>
+                    </Col>
+                    <Col>
+                    <h5>Order Price</h5>
+                    </Col>
+                </Row>
+            </ListGroup.Item>
+        <ListGroup as="ul" numbered style={{minWidth:"700px"}}>
+            
+        {data?
+        data.map((d)=>{
+            console.log(getProd(d))
+            getProd(d).then((r)=>p=r);
+            
+            return(
+                <ListGroup.Item>
+                    <Row>
+                        <Col>
+                        </Col>
+                        <Col>
+                        {d.date}
+                        </Col>
+                        <Col>
+                        {d.status=="processing"&&<Badge bg='secondary'>Processing</Badge>}
+                        {d.status=="shipped"&&<Badge bg="primary">Shipped</Badge>}
+                        {d.status=="delivered"&&<Badge bg="success">Delivered</Badge>}
+                        </Col>
+                        
+                        <Col>
+                        {p.length>0?p.map((x)=>{return(
+                            <h5>{x.name+" "+x.category+" : "+d.products[x._id]}</h5>
+                        )}):""}
+                        </Col>
+                        <Col>
+                        {d.total}
+                        </Col>
+                        
+                    </Row>
+                </ListGroup.Item>
+            )
+        })
+        :""}
+        </ListGroup>
     </div>
   )
 }
 
-export default Cart
+export default Order

@@ -4,9 +4,7 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import { useUserContext } from '../context/userContext';
-import AdminDrivers from '../components/AdminDrivers';
-import AdminUsers from '../components/AdminUsers';
-import AdminProducts from '../components/AdminProducts';
+
 import Home2 from '../components/Home2';
 import Cart from '../components/Cart';
 import { Button } from 'react-bootstrap';
@@ -14,9 +12,10 @@ import { AiOutlineShoppingCart } from 'react-icons/ai';
 import Order from '../components/Order';
 import DriverOrders from '../components/DriverOrders';
 import DriverMyOrder from '../components/DriverMyOrder';
-import AdminOrders from '../components/AdminOrders';
+
 import Product from '../components/Product';
 import './home.css';
+import Admin from '../components/Admin';
 
 function Home() {
   const {user,logout}=useUserContext();
@@ -25,12 +24,8 @@ function Home() {
     switch(data){
       case "product":
         return <Product />
-      case "drivers":
-        return <AdminDrivers/>
-      case "users":
-        return <AdminUsers/>
-      case "products":
-        return <AdminProducts/>
+      case "admin":
+        return <Admin/>
       case "main":
         return <Home2 setData={setData}/>
       case "cart":
@@ -41,8 +36,6 @@ function Home() {
         return <DriverOrders/>
       case "myorder":
         return <DriverMyOrder/>
-      case "orders":
-        return <AdminOrders/>
       default:
         return ""
     }
@@ -65,18 +58,7 @@ function Home() {
             <li className='nav-item' onClick={()=>setData("cart")}><a className='nav-link'><AiOutlineShoppingCart />{"("+user.cart.count+")"}</a></li>
             <li className='nav-item' onClick={()=>setData("order")}><a className='nav-link'>Orders</a></li>
             {user.role=="admin"&&
-            <li className="nav-item dropdown">
-          <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Admin
-          </a>
-            <ul className='dropdown-menu' title="Admin">
-            <li className='dropdown-item' onClick={()=>setData("products")}>Products</li>
-            <li className='dropdown-item' onClick={()=>setData("drivers")}>Drivers</li>
-            <li className='dropdown-item' onClick={()=>setData("orders")}>Orders</li>
-            <li className='dropdown-item' onClick={()=>setData("users")}>Users</li>
-            </ul>
-            
-            </li>}
+            <li className='nav-item' onClick={()=>setData("admin")}><a className='nav-link'>Admin</a></li>}
             {user.role=="driver"&&
             <li className="nav-item dropdown">
             <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
