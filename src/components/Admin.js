@@ -17,7 +17,6 @@ const Admin = () => {
     const [act,setAct]=useState(0);
     const [quant,setQuant]=useState(0);
     const [use,setUse]=useState([]);
-    const [dri,setDri]=useState([]);
     const [prod,setProd]=useState([]);
     const [nam,setName]=useState("");
     const [categor,setCategory]=useState("");
@@ -28,6 +27,7 @@ const Admin = () => {
     const [orddet,setOrddet]=useState({});
     const [orddetuse,setOrddetuse]=useState({});
     const [orddetdri,setOrddetdri]=useState({});
+    const [orddetprod,setOrddetprod]=useState([]);
     const update=async()=>{
         await axios.patch(BASE_URL+"product/"+i,{name:nam,price:pric,category:categor,stock:stoc,pictures:picture}).then((res)=>{
             
@@ -61,12 +61,10 @@ const Admin = () => {
             setQuant(b);
             setAct(c);
         })
-        await axios.get(BASE_URL+"user/clients").then((res)=>{
+        await axios.get(BASE_URL+"users").then((res)=>{
             setUse(res.data);
         })
-        await axios.get(BASE_URL+"user/drivers").then((res)=>{
-            setDri(res.data);
-        })
+        
         await axios.get(BASE_URL+"product").then((res)=>{
             setProd(res.data);
         })
@@ -121,9 +119,9 @@ const Admin = () => {
         })
     }
 
-    const getName=(a,b)=>{
+    const getName=(b)=>{
         let ans={};
-        a.map((x)=>{
+        use.map((x)=>{
             if(x._id==b||x.email==b){
                 console.log(x.name)      
                 ans=x
@@ -133,6 +131,29 @@ const Admin = () => {
             ans
         )
     }
+    const getuselength=(y)=>{
+      let a=0;
+      use.map((x)=>{
+        if(x.role==y){
+          a++;
+        }
+
+      })
+      return (
+        <>{a}</>
+      )
+    }
+
+  const getordprod=async(products)=>{
+    console.log(products)
+      let or=prod.filter((d)=>products[d._id]!=null);
+      console.log(or)
+      setOrddetprod(or);
+     return (or);
+        
+      
+  }
+
 
     useEffect(()=>{
         
@@ -206,13 +227,13 @@ const Admin = () => {
               <div class="card">
               <h1>Users</h1>
               <div class="card-body text-center">
-              <h5 class="card-title">{use.length}</h5>
+              <h5 class="card-title">{getuselength("client")}</h5>
               </div>
               </div>
               <div class="card">
               <h1>Drivers</h1>
               <div class="card-body text-center">
-              <h5 class="card-title">{dri.length}</h5>
+              <h5 class="card-title">{getuselength("driver")}</h5>
               </div>
               </div>
                 
@@ -222,9 +243,8 @@ const Admin = () => {
             
             {use.map((u)=>{
                 return(
-                   
-                    
-            <div class="card" style={{height:"auto"}}>
+                  <>
+              {u.role=="client"&&<div class="card" style={{height:"auto"}}>
               <h1>{u.name}</h1>
               <div class="card-body text-center">
               <h5 class="card-title">Phone:{u.phone}</h5>
@@ -233,8 +253,9 @@ const Admin = () => {
               <p>Orders: {u.orders.length}</p>
               <a onClick={()=>convUse(u._id)} class="btn btn-primary">Convert to Driver</a>
               </div>
-              </div>
-              
+              </div>}      
+            
+              </> 
                 )
             })}
             
@@ -245,22 +266,24 @@ const Admin = () => {
 
             {data=="drivers"&&<div className='parameters'>
             
-            {dri.map((d)=>{
+            {use.map((d)=>{
                 return(
                    
-                    
-            <div class="card" style={{height:"auto"}}>
-              <h1>{d.name}</h1>
-              <div class="card-body text-center">
-              <h5 class="card-title">Phone:{d.phone}</h5>
-              <p>email:{d.email}</p>
-              <p>address: {d.address}</p>
-              <p>Active Orders: {ordersactive(d._id)}</p>
-              <p>Orders Completed: {ordersof(d._id)}</p>
-              <a onClick={()=>convDri(d._id)} class="btn btn-primary">Convert to User</a>
-              </div>
-              </div>
-              
+                   <>
+                   {d.role=="driver"&&
+                   <div class="card" style={{height:"auto"}}>
+                   <h1>{d.name}</h1>
+                   <div class="card-body text-center">
+                   <h5 class="card-title">Phone:{d.phone}</h5>
+                   <p>email:{d.email}</p>
+                   <p>address: {d.address}</p>
+                   <p>Active Orders: {ordersactive(d._id)}</p>
+                   <p>Orders Completed: {ordersof(d._id)}</p>
+                   <a onClick={()=>convDri(d._id)} class="btn btn-primary">Convert to User</a>
+                   </div>
+                   </div>}
+            
+              </> 
                 )
             })}
             
@@ -316,12 +339,12 @@ const Admin = () => {
                 
                 return(
                     
-            <div class="card" style={{height:"auto"}} onClick={()=>{setOrddet(o);setOrddetuse(getName(use,o.owner._id));setOrddetdri(getName(dri,o.driver))}} data-bs-toggle="modal" data-bs-target="#orderdetails">
+            <div class="card" style={{height:"auto"}} onClick={()=>{setOrddet(o);setOrddetprod(getordprod(o.products));setOrddetuse(getName(o.owner._id));setOrddetdri(getName(o.driver))}} data-bs-toggle="modal" data-bs-target="#orderdetails">
                 <p>{o.date}</p>
                 <h1>{"Buyer: "+o.owner.name}</h1>
             <h1>{"Amount: "+o.total+"₹"}</h1>
             <div class="card-body text-center">
-            {o.status!="processing"&&<h1>{"Driver: "}{getName(dri,o.driver).name}</h1>}
+            {o.status!="processing"&&<h1>{"Driver: "}{getName(o.driver).name}</h1>}
             {o.status=="processing"&&<span class="badge text-bg-secondary">Processing</span>}
             {o.status=="shipped"&&<span class="badge text-bg-primary">Shipped</span>}
             {o.status=="delivered"&&<span class="badge text-bg-success">Delivered</span>}
@@ -439,6 +462,29 @@ const Admin = () => {
               <h5 class="card-title">{"Address: "+orddetdri.address}</h5>
               <h5 class="card-title">{"Delivered Orders: "}{ordersof(orddet.driver)}</h5>
               </div>:""}
+              </div>
+              <div class="card" style={{height:"auto"}}>
+              <h1>Products Ordered</h1>
+              <div class="card-body text-center">
+              {
+                prod.filter((d)=>orddet.products[d._id]!=null).map((x)=>{
+                  return (
+                    <h5>{x.name+" : "+orddet.products[x._id]}</h5>
+                  )
+                })
+              }
+              </div>
+              
+              </div>
+              <div class="card" style={{height:"auto"}}>
+              <h1>Details</h1>
+              <div class="card-body text-center">
+              <h5 class="card-title">{"Date: "+orddet.date}</h5>
+              <h5 class="card-title">{"Quantity: "+orddet.count}</h5>
+              <h5 class="card-title">{"Status: "+orddet.status}</h5>
+              <h5 class="card-title">{"Total Amount: "+orddet.total}</h5>
+              
+              </div>
               </div>
             </div>
       </div>
