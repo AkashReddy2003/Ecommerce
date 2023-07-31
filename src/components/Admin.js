@@ -144,11 +144,22 @@ const Admin = () => {
       )
     }
 
-  const getordprod=async(products)=>{
-    console.log(products)
-      let or=prod.filter((d)=>products[d._id]!=null);
+  const getordprod=()=>{
+    
+      let or=[];
+      
+      for(var i in prod){
+        
+        if(orddet.products[prod[i]._id]!=null){
+          
+          console.log(i)
+          or.push({
+            name:prod[i].name+" "+prod[i].category,
+            c:orddet.products[prod[i]._id]
+          });
+        }
+      }
       console.log(or)
-      setOrddetprod(or);
      return (or);
         
       
@@ -339,7 +350,7 @@ const Admin = () => {
                 
                 return(
                     
-            <div class="card" style={{height:"auto"}} onClick={()=>{setOrddet(o);setOrddetprod(getordprod(o.products));setOrddetuse(getName(o.owner._id));setOrddetdri(getName(o.driver))}} data-bs-toggle="modal" data-bs-target="#orderdetails">
+            <div class="card" style={{height:"auto"}} onClick={()=>{setOrddet(o);setOrddetuse(getName(o.owner._id));setOrddetdri(getName(o.driver))}} data-bs-toggle="modal" data-bs-target="#orderdetails">
                 <p>{o.date}</p>
                 <h1>{"Buyer: "+o.owner.name}</h1>
             <h1>{"Amount: "+o.total+"₹"}</h1>
@@ -463,20 +474,22 @@ const Admin = () => {
               <h5 class="card-title">{"Delivered Orders: "}{ordersof(orddet.driver)}</h5>
               </div>:""}
               </div>
-              <div class="card" style={{height:"auto"}}>
+              {/* {orddet.products!={}?<div class="card" style={{height:"auto"}}>
               <h1>Products Ordered</h1>
               <div class="card-body text-center">
               {
-                prod.filter((d)=>orddet.products[d._id]!=null).map((x)=>{
+                orddetprod!=[]&&orddetprod.map((x)=>{
                   return (
-                    <h5>{x.name+" : "+orddet.products[x._id]}</h5>
+                    <>
+                    {x!={}&&<h5>{x.name+" : "+x.c}</h5>}
+                    </>
                   )
                 })
               }
               </div>
               
-              </div>
-              <div class="card" style={{height:"auto"}}>
+              </div>:""} */}
+              {orddet!={}?<div class="card" style={{height:"auto"}}>
               <h1>Details</h1>
               <div class="card-body text-center">
               <h5 class="card-title">{"Date: "+orddet.date}</h5>
@@ -485,7 +498,7 @@ const Admin = () => {
               <h5 class="card-title">{"Total Amount: "+orddet.total}</h5>
               
               </div>
-              </div>
+              </div>:""}
             </div>
       </div>
       
