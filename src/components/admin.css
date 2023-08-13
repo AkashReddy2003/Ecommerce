@@ -10,6 +10,9 @@
     
     
 }
+.phon{
+    display: none;
+}
 
 .navigate{
     position: fixed;
@@ -164,5 +167,22 @@ h1{
 
 .orddet .card{
     margin: 10px;
+}
+
+@media (max-width:700px){
+    .phon{
+        display: block;
+    }
+    .lap{
+        display: none;
+    }
+    .content{
+        left: 0;
+        width: 100%;
+        
+    }
+    .parameters{
+        grid-template-columns: auto;
+    }
 }
 

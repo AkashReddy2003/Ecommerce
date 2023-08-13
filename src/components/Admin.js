@@ -8,6 +8,8 @@ import {TbBottle} from 'react-icons/tb'
 import axios from 'axios'
 import { useUserContext } from '../context/userContext'
 import {Toast,InputGroup,Form,Row,Col,Button,ListGroup} from 'react-bootstrap'
+import Dropdown from 'react-bootstrap/Dropdown';
+import DropdownButton from 'react-bootstrap/DropdownButton';
 
 const Admin = () => {
     const {BASE_URL}=useUserContext();
@@ -174,7 +176,17 @@ const Admin = () => {
   return (
     
     <div className='contain'>
-        <div className='navigate'>
+        <div class="phon">
+
+        <DropdownButton id="dropdown-basic-button" title={data}>
+      <Dropdown.Item onClick={()=>setData("home")}>Home</Dropdown.Item>
+      <Dropdown.Item onClick={()=>setData("products")}>Products</Dropdown.Item>
+      <Dropdown.Item onClick={()=>setData("users")}>Users</Dropdown.Item>
+      <Dropdown.Item onClick={()=>setData("drivers")}>Drivers</Dropdown.Item>
+      <Dropdown.Item onClick={()=>setData("orders")}>Orders</Dropdown.Item>
+    </DropdownButton>
+        </div>
+        <div className='navigate lap'>
             <ul>
                 <li onClick={()=>setData("home")}>
                     <a href='#'>
