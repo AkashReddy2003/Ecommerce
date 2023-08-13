@@ -1,5 +1,6 @@
 import { createContext,useContext,useState } from "react";
 import axios from 'axios';
+import { Alert } from "react-bootstrap";
 
 const UserContext=createContext();
 
@@ -35,8 +36,12 @@ export const UserProvider=({children})=>{
                 console.log(res.data.user.role);
 
             }else{
+               
                 alert(res.data.message);
             }
+        }).catch((e)=>{
+            alert(e.response.data);
+            console.log(e);
         })
     }
     const setUse=(user)=>{

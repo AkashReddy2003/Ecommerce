@@ -64,7 +64,7 @@ const Order = () => {
         </section>
         :
         <>
-        <h1 class="text-center">ORDERS</h1>
+        <h1 class="text-center" style={{padding:"20px"}}>ORDERS</h1>
     <div class="con">
         
         {data?
@@ -101,9 +101,9 @@ const Order = () => {
         <div class="row d-flex justify-content-center">
           <div class="col-12">
             <ul id="progressbar" class="text-center">
-              <li class={(d.status=="processing"||d.status=="shipped"||d.status=="deliverd")?"active step0":"step0"}></li>
-              <li class={(d.status=="shipped"||d.status=="deliverd")?"active step0 ":"step0"}></li>
-              <li class={(d.status=="deliverd")?"active step0 ":"step0"}></li>
+              <li class={(d.status=="processing"||d.status=="shipped"||d.status=="delivered")?"active step0":"step0"}></li>
+              <li class={(d.status=="shipped"||d.status=="delivered")?"active step0":"step0"}></li>
+              <li class={(d.status=="delivered")?"active step0 ":"step0"}></li>
             </ul>
           </div>
         </div>

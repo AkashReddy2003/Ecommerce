@@ -12,7 +12,7 @@ import { AiOutlineShoppingCart } from 'react-icons/ai';
 import Order from '../components/Order';
 import DriverOrders from '../components/DriverOrders';
 import DriverMyOrder from '../components/DriverMyOrder';
-
+import {GrUserWorker} from "react-icons/gr"
 import Product from '../components/Product';
 import './home.css';
 import Admin from '../components/Admin';
@@ -55,7 +55,7 @@ function Home() {
           <li className='nav-item'><a className='nav-link'>Contact</a></li>
           <li className='nav-item' onClick={()=>setData("product")} ><a className='nav-link'>Products</a></li>
           
-            <li className='nav-item' onClick={()=>setData("cart")}><a className='nav-link'><AiOutlineShoppingCart />{"("+user.cart.count+")"}</a></li>
+            
             <li className='nav-item' onClick={()=>setData("order")}><a className='nav-link'>Orders</a></li>
             {user.role=="admin"&&
             <li className='nav-item' onClick={()=>setData("admin")}><a className='nav-link'>Admin</a></li>}
@@ -65,13 +65,14 @@ function Home() {
               Driver
             </a>
             <ul className='dropdown-menu' title="Driver">
-            <li className='dropdown-item' onClick={()=>setData("driveorders")}>Active Orders</li>
-            <li className='dropdown-item' onClick={()=>setData("myorder")}>My Orders</li>
+            <li className='dropdown-item' onClick={()=>setData("driveorders")}><GrUserWorker/>{" "+ "Active Orders"}</li>
+            <li className='dropdown-item' onClick={()=>setData("myorder")}><GrUserWorker/>{" "+ "My Orders"}</li>
             </ul>
             </li>}
           
             
       </ul>
+      <a className='nav-item' onClick={()=>setData("cart")}><a className='nav-link'><AiOutlineShoppingCart />{"("+user.cart.count+")"}</a></a>
       <button class="btn" onClick={logout} >Logout</button>
       
     </div>

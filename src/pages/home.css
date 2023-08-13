@@ -30,6 +30,7 @@
 
 }
 .nav-item{
+  color: #ccc;
     cursor: pointer;
 }
 
@@ -146,7 +147,7 @@ section{
     
 }
 
-#product h1{
+ h1{
     font-size: 50px;
     letter-spacing: 2px;
     font-weight: 700;

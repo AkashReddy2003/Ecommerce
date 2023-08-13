@@ -9,6 +9,7 @@ import {FaRegAddressCard} from 'react-icons/fa'
 import {HiOutlineMail} from 'react-icons/hi'
 function Auth() {
     const [state,setState]=useState("Sign Up");
+    
     const data=()=>{
         switch(state){
             case "Log In":
