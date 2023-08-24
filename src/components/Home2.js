@@ -3,7 +3,11 @@ import React, { useEffect, useState } from 'react'
 import "./home2.css"
 import about from '../img/about.jpg';
 import loa from '../img/button.png';
-
+import loc1 from '../img/loc1.png'
+import loc2 from '../img/loc2.png'
+import {MdLocationPin} from 'react-icons/md';
+import {ImPhone} from 'react-icons/im';
+import {AiFillMessage} from 'react-icons/ai'
 const Home2 = ({setData}) => {
   const [load,setLoad]=useState(true);
   useEffect(()=>{
@@ -43,6 +47,7 @@ We've been doing this since 2000, making sure parties, businesses, and events ha
           </div>
 
         </section>
+        
 
         
     </div>}

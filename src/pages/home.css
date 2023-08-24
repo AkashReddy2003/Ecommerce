@@ -124,6 +124,8 @@ section{
 #about{
     background: black;
     color: white;
+    padding-top: 20%;
+    height: 100vh;
 
 }
 #about img{

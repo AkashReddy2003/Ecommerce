@@ -24,7 +24,7 @@ function Auth() {
     
     <div className='containe'>
       <div className='form_box'>
-        <h1>Wholesale Ecommerce</h1>
+        <h1>Fresh Drinks</h1>
         <div className='btn_field'>
         <button type='button' className={state=="Sign Up"?"":"disable"} onClick={()=>setState("Sign Up")}>Sign up</button>
         <button type='button' className={state=="Log In"?"":"disable"} onClick={()=>setState("Log In")}>Log in</button>

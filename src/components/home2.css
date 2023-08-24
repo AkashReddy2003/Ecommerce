@@ -15,4 +15,16 @@
 .cat_item:hover{
     transform: scale(1.05);
 }
-
+#contact{
+    text-align: center;
+    padding: 7% 15% 0;
+  }
+  .sic{
+    padding-left: 40px;
+  }
+  .sli{
+    padding-left: 20px;
+  }
+  .devoloper{
+    float: right;
+  }
